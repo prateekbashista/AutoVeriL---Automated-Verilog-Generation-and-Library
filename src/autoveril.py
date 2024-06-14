@@ -1,18 +1,11 @@
-# f = open("../generated_verilog/mux.v", "w")
-# f.write("module mux(input a, input b, input sel, output ans);")
-# f.write("\n")
-# f.write("\n")
-# f.write("assign ans = sel ? a : b;")
-# f.write("\n")
-# f.write("\n")
-# f.write("endmodule")
-# f.close()
 import math as mt
 import sys
+import time
 
+
+## Generating Mux Code
 def mux(mux_len : int, width : int):
     sel_line = mt.log2(mux_len)
-    f = open("../generated_verilog/mux.v", "w")
     f.write("module mux(")
     for i in range(mux_len) :
         f.write("input [" + str(width-1)+ ":0]"+ "in" + str(i) + "  ,")
@@ -28,8 +21,23 @@ def mux(mux_len : int, width : int):
     f.write("\n\t\tendcase")
     f.write("\n\tend\n")
     f.write("\nendmodule")
-    f.close()
 
 
-mux(16,32)
+
+ip_logic = sys.argv[1]
+data_width  = int(sys.argv[2])
+pins = int(sys.argv[3])
+
+curr = time.localtime()
+f = open("../generated_verilog/"+ ip_logic + str(curr.tm_hour) + str(curr.tm_min) + str(curr.tm_sec) + ".v", "w")
+
+
+##IP SELECT FOR DIFFERENT KINDS OF DIGITAL LOGIC
+if ip_logic == 'mux':   
+    mux(pins,data_width)
+
+f.close()
+
+
+
 
