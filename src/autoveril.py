@@ -25,7 +25,7 @@ def mux(mux_len : int, width : int):
 def half_add() :
     f.write("module half_add(input a, input b, output s, output cout); \n\n")
     f.write("assign s = a ^ b;\n")
-    f.write("assign s = a & b;\n")
+    f.write("assign c = a & b;\n")
     f.write("endmodule")
 
 ip_logic = sys.argv[1]
