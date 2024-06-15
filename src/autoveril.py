@@ -1,50 +1,48 @@
-import math as mt
+from mux import mux
+from half_add import half_add
+from full_add import full_add
 import sys
 import time
 
+def help():
+    print("WELCOME TO AUTOVERIL \n\tHELP MENU:")
+    print("\t1. mux <data_width> <number of inputs> : generates mux of specified data width and num of inputs")
+    print("\t2. half_addr : generates a generic half adder")
+    print("\t3. full_addr : generates a generic full adder")
 
-## generation of mux module
-def mux(mux_len : int, width : int):
-    sel_line = mt.log2(mux_len)
-    f.write("module mux(")
-    for i in range(mux_len) :
-        f.write("input [" + str(width-1)+ ":0]"+ "in" + str(i) + "  ,")
-    f.write("input " + "[" + str(int(sel_line-1)) + ":0] sel,")
-    f.write(" output reg [" + str(width-1)+ ":0]" + "ans);")
-    f.write("\n\n")
-
-    f.write("\talways @(*) begin \n")
-    f.write("\t\t case(sel)")
-    for i in range(mux_len) :
-        f.write("\n\t\t " + str(int(sel_line)) + "'d" + str(i) + " : ans  = in" + str(i) + ";")
-    f.write("\n\t\t default : ans = " + str(int(sel_line)) +  "'d0;")
-    f.write("\n\t\tendcase")
-    f.write("\n\tend\n")
-    f.write("\nendmodule")
-
-# generation of half adder module
-def half_add() :
-    f.write("module half_add(input a, input b, output s, output cout); \n\n")
-    f.write("assign s = a ^ b;\n")
-    f.write("assign cout = a & b;\n")
-    f.write("endmodule")
+ip_dict  = {
+    "help" : "help",
+    "mux" : "mux",
+    "half_addr" : "half_addr",
+    "full_addr" : "full_addr"
+ }
 
 ip_logic = sys.argv[1]
 
-
 curr = time.localtime()
-f = open("../generated_verilog/"+ ip_logic + str(curr.tm_hour) + str(curr.tm_min) + str(curr.tm_sec) + ".v", "w")
+
+if ip_logic != 'help' and ip_dict.get(ip_logic) != None:
+    f = open("../generated_verilog/"+ ip_logic +"_"+ str(curr.tm_hour)+"_" + str(curr.tm_min)+ "_" + str(curr.tm_sec) + ".v", "w")
 
 
 ##IP SELECT FOR DIFFERENT KINDS OF DIGITAL LOGIC
-if ip_logic == 'mux':  
+
+if ip_logic == 'help':
+    help()
+elif ip_logic == 'mux':  
     data_width  = int(sys.argv[2])
     pins = int(sys.argv[3]) 
-    mux(pins,data_width)
+    mux(f,pins,data_width)
 elif ip_logic == 'half_addr' :
-    half_add()
+    half_add(f)
+elif ip_logic == 'full_addr' :
+    full_add(f)
+else :
+    help()
 
-f.close()
+
+if ip_logic != 'help'and ip_dict.get(ip_logic) != None:
+    f.close()
 
 
 
