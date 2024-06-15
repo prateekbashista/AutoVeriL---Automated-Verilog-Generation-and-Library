@@ -22,19 +22,26 @@ def mux(mux_len : int, width : int):
     f.write("\n\tend\n")
     f.write("\nendmodule")
 
-
+def half_add() :
+    f.write("module half_add(input a, input b, output s, output cout); \n\n")
+    f.write("assign s = a ^ b;\n")
+    f.write("assign s = a & b;\n")
+    f.write("endmodule")
 
 ip_logic = sys.argv[1]
-data_width  = int(sys.argv[2])
-pins = int(sys.argv[3])
+
 
 curr = time.localtime()
 f = open("../generated_verilog/"+ ip_logic + str(curr.tm_hour) + str(curr.tm_min) + str(curr.tm_sec) + ".v", "w")
 
 
 ##IP SELECT FOR DIFFERENT KINDS OF DIGITAL LOGIC
-if ip_logic == 'mux':   
+if ip_logic == 'mux':  
+    data_width  = int(sys.argv[2])
+    pins = int(sys.argv[3]) 
     mux(pins,data_width)
+elif ip_logic == 'half_addr' :
+    half_add()
 
 f.close()
 
