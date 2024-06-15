@@ -1,20 +1,23 @@
 from mux import mux
 from half_add import half_add
 from full_add import full_add
+from rca import rca
 import sys
 import time
 
 def help():
     print("WELCOME TO AUTOVERIL \n\tHELP MENU:")
-    print("\t1. mux <data_width> <number of inputs> : generates mux of specified data width and num of inputs")
+    print("\t1. mux <data_width> <number of inputs (in powers of 2)> : generates mux of specified data width and num of inputs")
     print("\t2. half_addr : generates a generic half adder")
     print("\t3. full_addr : generates a generic full adder")
+    print("\t4. rca <data_width> : generates a ripple carry adder of specified data width")
 
 ip_dict  = {
     "help" : "help",
     "mux" : "mux",
     "half_addr" : "half_addr",
-    "full_addr" : "full_addr"
+    "full_addr" : "full_addr",
+    "rca" : "rca"
  }
 
 ip_logic = sys.argv[1]
@@ -37,6 +40,9 @@ elif ip_logic == 'half_addr' :
     half_add(f)
 elif ip_logic == 'full_addr' :
     full_add(f)
+elif ip_logic == 'rca' :
+    data_width  = int(sys.argv[2])
+    rca(f,data_width)
 else :
     help()
 
