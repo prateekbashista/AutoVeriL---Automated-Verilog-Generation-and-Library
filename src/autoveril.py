@@ -3,7 +3,7 @@ import sys
 import time
 
 
-## Generating Mux Code
+## generation of mux module
 def mux(mux_len : int, width : int):
     sel_line = mt.log2(mux_len)
     f.write("module mux(")
@@ -22,10 +22,11 @@ def mux(mux_len : int, width : int):
     f.write("\n\tend\n")
     f.write("\nendmodule")
 
+# generation of half adder module
 def half_add() :
     f.write("module half_add(input a, input b, output s, output cout); \n\n")
     f.write("assign s = a ^ b;\n")
-    f.write("assign c = a & b;\n")
+    f.write("assign cout = a & b;\n")
     f.write("endmodule")
 
 ip_logic = sys.argv[1]
